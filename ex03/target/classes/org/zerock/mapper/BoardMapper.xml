@@ -42,9 +42,9 @@ select * from tbl_board where bno > 0
 			from tbl_board where rownum <= #{pageNum} * #{amount} ) where rn > (#{pageNum} 
 			- 1) * #{amount} ]]> -->
 <![CDATA[
-select bno, title, content, writer, regdate, updatedate
+select bno, title, content, writer, regdate, updatedate, replyCnt
 from (
-select rownum rn, bno, title, content, writer, regdate, updatedate from tbl_board
+select rownum rn, bno, title, content, writer, regdate, updatedate, replyCnt from tbl_board
 where
 ]]>
 
@@ -99,5 +99,10 @@ where rn > (#{pageNum}-1) * #{amount}
 		updateDate = sysdate
 		where bno = #{bno}
 	</update>
+	
+	<update id="updateReplyCnt">
+	update tbl_board set replyCnt = replyCnt + #{amount} where bno = #{bno}
+	</update>
+	
 
 </mapper>
