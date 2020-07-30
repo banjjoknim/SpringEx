@@ -202,6 +202,7 @@ $(document).ready(function(){
 			type: 'POST',
 			success: function(result){
 				alert(result);
+				targetLi.remove();
 			}
 		}); //$.ajax//
 	});
