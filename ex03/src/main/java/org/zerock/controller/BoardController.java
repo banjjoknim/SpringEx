@@ -1,6 +1,5 @@
 package org.zerock.controller;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,6 +8,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,6 +58,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/register")
+	@PreAuthorize("isAuthenticated()")
 	public String register(BoardVO board, RedirectAttributes rttr) {
 		
 		
@@ -76,6 +77,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/register")
+	@PreAuthorize("isAuthenticated()")
 	public void register() {
 		
 	}
@@ -105,6 +107,7 @@ public class BoardController {
 //	}
 	
 	@PostMapping("/modify")
+	@PreAuthorize("principal.username == #board.writer")
 	public String modify(BoardVO board, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
 		
 		log.info("modify : "+board);
@@ -123,7 +126,8 @@ public class BoardController {
 	
 	
 	@PostMapping("/remove")
-	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr) {
+	@PreAuthorize("principal.username == #writer")// p.672 의미 참고. p.720 참고
+	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr, String writer) {
 		
 		log.info("remove....." + bno);
 		

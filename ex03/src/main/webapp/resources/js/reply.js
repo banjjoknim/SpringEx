@@ -44,17 +44,19 @@ var replyService = (function(){
 //				callback(data); //댓글 목록만 가져오는 경우
 				callback(data.replyCnt, data.list); //댓글 숫자와 목록을 가져오는 경우
 			}
-		}).fail(function(xhrr, status, err){
+		}).fail(function(xhr, status, err){
 			if(error) {
 				error();
 			}
 		});		
 	}
 	
-	function remove(rno, callback, error){
+	function remove(rno, replyer, callback, error){
 		$.ajax({
 			type : 'delete',
 			url : '/replies/' + rno,
+			data : JSON.stringify({rno: rno, replyer: replyer}),
+			contentType: "application/json; charset=UTF-8",
 			success : function(deleteResult, status, xhr) {
 				if(callback) {
 					callback(deleteResult);
@@ -63,6 +65,7 @@ var replyService = (function(){
 			error : function(xhr, status, er) {
 				if (error) {
 					error(er);
+					
 				}
 			}
 		});

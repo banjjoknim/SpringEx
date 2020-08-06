@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
 
     <meta charset="utf-8">
@@ -33,23 +35,34 @@
     <![endif]-->
 
 </head>
+
 <body>
-<div class="container">
+
+    <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Logout Page</h3>
+                        <h3 class="panel-title">Please Sign In</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form" method="post" action="/customLogout">
+                        <form role="form" method="post" action="/login">
                             <fieldset>
-                            
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="userid" name="userid" type="text" autofocus>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input name="remember-me" type="checkbox">Remember Me
+                                    </label>
+                                </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                
-                                <a href="index.html" class="btn btn-lg btn-success btn-block">Logout</a>
+                                <a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>
                             </fieldset>
-                            <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+                            <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
                         </form>
                     </div>
                 </div>
@@ -68,27 +81,19 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="/resources/dist/js/sb-admin-2.js"></script>
+    
+    <script>
+    
+    $(".btn-success").on("click", function(e){
+    	
+    	e.preventDefault();
+    	debugger;
+    	$("form").submit();
+    });
+    
+    </script>
 
-<form action="/customLogout" method="post">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-<button>로그아웃</button>
-</form>
-<script type="text/javascript" src="/resources/js/reply.js"></script>
-<script>
-$(".btn-success").on("click", function(e){
-	
-	e.preventDefault();
-	$("form").submit();
-	
-});
+</body>
 
-</script>
-<c:if test="${param.logout != null }">
-<script>
-$(document).ready(function(){
-	alert("로그아웃 하였습니다.");
-});
-</script>
-</c:if>
 </body>
 </html>
